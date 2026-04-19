@@ -28,7 +28,7 @@ modules:
       - hyprlock
       - xdg-desktop-portal-hyprland
       - xdg-desktop-portal-gtk
-      - polkit-gnome
+      - lxqt-policykit
       - qt6-qtwayland
       - qt5-qtwayland
       # Greeter (SDDM — Wayland support is in the main package on F43+)
