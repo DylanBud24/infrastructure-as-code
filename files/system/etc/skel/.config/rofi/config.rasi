@@ -1,0 +1,67 @@
+configuration {
+    modi: "drun,run,window,clipboard";
+    font: "JetBrainsMono Nerd Font 12";
+    show-icons: true;
+    icon-theme: "Papirus-Dark";
+    drun-display-format: "{name}";
+    disable-history: false;
+    display-drun: "  Apps";
+    display-run:  "  Run";
+    display-window: "  Windows";
+    display-clipboard: "  Clipboard";
+    terminal: "kitty";
+    sidebar-mode: true;
+}
+
+@theme "/dev/null"
+
+* {
+    bg:          #2e3440ee;
+    bg-alt:      #3b4252;
+    fg:          #eceff4;
+    fg-dim:      #81a1c1;
+    accent:      #88c0d0;
+    urgent:      #bf616a;
+
+    background-color: transparent;
+    text-color: @fg;
+    border-radius: 10px;
+}
+
+window {
+    width: 40%;
+    background-color: @bg;
+    border: 1px;
+    border-color: @accent;
+    padding: 16px;
+    location: center;
+}
+
+mainbox { children: [ inputbar, mode-switcher, listview ]; spacing: 10px; }
+
+inputbar {
+    children: [ prompt, entry ];
+    background-color: @bg-alt;
+    padding: 10px 14px;
+    border-radius: 8px;
+}
+
+prompt  { text-color: @accent; margin: 0 10px 0 0; }
+entry   { placeholder: "Type to search..."; placeholder-color: @fg-dim; }
+
+mode-switcher { spacing: 6px; }
+
+button {
+    padding: 6px 12px;
+    background-color: @bg-alt;
+    text-color: @fg-dim;
+    border-radius: 6px;
+}
+button selected { background-color: @accent; text-color: @bg; }
+
+listview { lines: 10; spacing: 4px; scrollbar: false; }
+
+element { padding: 8px 12px; border-radius: 6px; }
+element selected { background-color: @accent; text-color: @bg; }
+element-icon { size: 20px; margin: 0 10px 0 0; }
+element-text { text-color: inherit; vertical-align: 0.5; }

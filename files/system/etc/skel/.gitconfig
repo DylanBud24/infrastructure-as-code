@@ -1,0 +1,46 @@
+; Default git config from /etc/skel.
+; Override anything in ~/.gitconfig.local (included below if present).
+; On first login, replace the placeholder user.name / user.email below.
+
+[user]
+    name = Dylan
+    email = dylanbud2424@gmail.com
+
+[init]
+    defaultBranch = main
+
+[pull]
+    rebase = true
+
+[push]
+    default = simple
+    autoSetupRemote = true
+
+[fetch]
+    prune = true
+
+[core]
+    editor = nvim
+    autocrlf = input
+
+[diff]
+    algorithm = histogram
+    colorMoved = default
+
+[merge]
+    conflictStyle = zdiff3
+
+[color]
+    ui = auto
+
+[alias]
+    st = status -sb
+    co = checkout
+    br = branch
+    ci = commit
+    lg = log --oneline --graph --decorate -30
+    unstage = reset HEAD --
+    last = log -1 HEAD
+
+[include]
+    path = ~/.gitconfig.local

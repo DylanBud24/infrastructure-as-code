@@ -21,7 +21,7 @@ modules:
       # Tailscale's official RPM repo.
       - https://pkgs.tailscale.com/stable/fedora/tailscale.repo
     install:
-      # Hyprland stack
+      # --- Hyprland compositor + session ---
       - hyprland
       - hyprpaper
       - hypridle
@@ -31,25 +31,63 @@ modules:
       - lxqt-policykit
       - qt6-qtwayland
       - qt5-qtwayland
-      # Greeter: using GDM from silverblue-main (see note below).
-      # Core desktop bits that Hyprland expects
+      # --- Desktop toolchain (terminal / bar / launcher / notifications) ---
+      - kitty
+      - waybar
+      - rofi-wayland
+      - mako
+      - swaybg
+      # --- Screenshots + clipboard ---
+      - grim
+      - slurp
+      - swappy
+      - wl-clipboard
+      - cliphist
+      # --- System tray / applets ---
       - NetworkManager-tui
       - network-manager-applet
+      - blueman
       - pavucontrol
+      # --- GUI config tools for Hyprland ---
+      - nwg-displays     # monitor resolution / refresh rate / scaling GUI
+      - nwg-look         # GTK theme picker
+      - gnome-control-center  # still useful for power/bluetooth/user settings
+      # --- Hardware controls ---
       - brightnessctl
       - playerctl
+      - pamixer
       - wireplumber
       - pipewire-pulseaudio
-      # Dev / terminal
+      # --- Fonts (fixes the "looks terrible" problem) ---
+      - google-noto-sans-fonts
+      - google-noto-serif-fonts
+      - google-noto-emoji-fonts
+      - google-noto-color-emoji-fonts
+      - jetbrains-mono-fonts
+      - fira-code-fonts
+      # --- CLI / shell tooling ---
+      - zsh
+      - starship
       - git
       - gh
+      - ripgrep
+      - fd-find
+      - bat
+      - eza
+      - fzf
+      - zoxide
+      - tmux
+      - htop
+      - jq
+      - tree
+      - unzip
+      # --- Dev containers / virtualization ---
       - distrobox
       - podman-compose
-      - zsh
-      # VS Code intentionally omitted here — installed as a Flatpak below.
-      # Microsoft's vscode repo isn't pre-enabled on silverblue-main, and
-      # Settings Sync gives the same cross-machine UX as native install.
-      # Networking
+      # --- Utilities ---
+      - rclone
+      - fuse3
+      # --- Networking ---
       - tailscale
     remove:
       # Silverblue-main defaults we don't want.
@@ -87,6 +125,32 @@ modules:
   - type: script
     snippets:
       - "flatpak remote-add --if-not-exists --user flathub https://flathub.org/repo/flathub.flatpakrepo || true"
+
+  # --- JetBrainsMono Nerd Font (Fedora doesn't ship patched nerd fonts) ---
+  # Required so waybar/kitty/starship glyphs render properly.
+  - type: script
+    snippets:
+      - |
+        set -euo pipefail
+        NF_VERSION="3.2.1"
+        DEST="/usr/share/fonts/jetbrainsmono-nerd"
+        mkdir -p "$DEST"
+        cd /tmp
+        curl -fsSL -o jbm-nerd.zip \
+          "https://github.com/ryanoasis/nerd-fonts/releases/download/v${NF_VERSION}/JetBrainsMono.zip"
+        unzip -o -q jbm-nerd.zip -d "$DEST"
+        rm -f jbm-nerd.zip
+        fc-cache -f "$DEST" || true
+
+  # --- Make zsh the default shell for new users (existing users switch manually) ---
+  - type: script
+    snippets:
+      - |
+        set -euo pipefail
+        # Only change default if not already zsh
+        if grep -q '^SHELL=/bin/bash' /etc/default/useradd 2>/dev/null; then
+          sed -i 's|^SHELL=/bin/bash|SHELL=/bin/zsh|' /etc/default/useradd
+        fi
 
   # --- Files baked into the image (default skel, system configs) ---
   # `source` is relative to the `files/` directory at the repo root,

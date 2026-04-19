@@ -1,0 +1,23 @@
+# Mako — Wayland notification daemon.
+max-visible=5
+sort=-time
+layer=overlay
+anchor=top-right
+margin=12
+padding=12
+border-size=1
+border-radius=10
+default-timeout=5000
+ignore-timeout=1
+
+font=JetBrainsMono Nerd Font 11
+background-color=#2e3440ee
+text-color=#eceff4
+border-color=#88c0d0
+
+[urgency=low]
+border-color=#81a1c1
+
+[urgency=high]
+border-color=#bf616a
+default-timeout=0
