@@ -14,8 +14,8 @@ podman run --rm -it -v "$PWD":/work -w /work gcr.io/projectsigstore/cosign:lates
 Move the public key into place:
 
 ```bash
-cp cosign.pub image/cosign.pub
-cp cosign.pub image/files/system/etc/pki/containers/hypratomic.pub
+cp cosign.pub recipes/image/cosign.pub
+cp cosign.pub recipes/image/files/system/etc/pki/containers/hypratomic.pub
 ```
 
 Keep `cosign.key` somewhere safe (1Password, Proton Pass, or encrypted USB). You'll paste its contents into the GitHub repo secret `SIGNING_SECRET` in Step 3.

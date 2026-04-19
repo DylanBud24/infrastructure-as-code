@@ -85,7 +85,7 @@ ls ~/ProtonDrive                                         # verify
 - `~/.local/share/flatpak/` — managed by Flatpak
 - `~/.mozilla/` (unless you actually use Firefox; Brave is primary)
 - `~/.config/BraveSoftware/` (empty on Bazzite — profile is inside `~/.var/app/`)
-- `/etc/*` customizations — re-encode them into `image/files/system/etc/` so they're baked into the image
+- `/etc/*` customizations — re-encode them into `recipes/image/files/system/etc/` so they're baked into the image
 
 ## 8. Pre-rebase safety net
 

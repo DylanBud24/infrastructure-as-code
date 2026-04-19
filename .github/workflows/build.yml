@@ -7,7 +7,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "image/**"
+      - "recipes/**"
       - ".github/workflows/build.yml"
   pull_request:
     branches: [main]
@@ -49,7 +49,7 @@ jobs:
       - name: Build & Push via BlueBuild
         uses: blue-build/github-action@v1
         with:
-          recipe: image/recipe.yml
+          recipe: image/recipe.yml  # BlueBuild prepends ./recipes/ → ./recipes/image/recipe.yml
           cosign_private_key: ${{ secrets.SIGNING_SECRET }}
           registry_token: ${{ github.token }}
           pr_event_number: ${{ github.event.number }}
