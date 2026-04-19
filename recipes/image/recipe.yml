@@ -126,12 +126,14 @@ modules:
       - "flatpak remote-add --if-not-exists --user flathub https://flathub.org/repo/flathub.flatpakrepo || true"
 
   # --- Starship prompt (official install script writes a single static binary) ---
+  # /usr/local/bin doesn't exist in the build container; install to /usr/bin directly.
   - type: script
     snippets:
       - |
         set -euo pipefail
+        mkdir -p /usr/bin
         curl -fsSL https://starship.rs/install.sh \
-          | sh -s -- --yes --bin-dir /usr/local/bin
+          | sh -s -- --yes --bin-dir /usr/bin
 
   # --- JetBrainsMono Nerd Font (Fedora doesn't ship patched nerd fonts) ---
   # Required so waybar/kitty/starship glyphs render properly.
