@@ -89,13 +89,12 @@ modules:
       - "flatpak remote-add --if-not-exists --user flathub https://flathub.org/repo/flathub.flatpakrepo || true"
 
   # --- Files baked into the image (default skel, system configs) ---
+  # `source` is relative to the `files/` directory at the repo root,
+  # which BlueBuild mounts into /tmp/files during build.
   - type: files
     files:
-      - source: files/system
+      - source: system
         destination: /
-      # Optional: default /etc/skel additions for new users.
-      # - source: files/etc/skel
-      #   destination: /etc/skel
 
   # --- Signing (generated once via `cosign generate-key-pair`, public key committed) ---
   - type: signing
