@@ -31,8 +31,7 @@ modules:
       - lxqt-policykit
       - qt6-qtwayland
       - qt5-qtwayland
-      # Greeter (SDDM — Wayland support is in the main package on F43+)
-      - sddm
+      # Greeter: using GDM from silverblue-main (see note below).
       # Core desktop bits that Hyprland expects
       - NetworkManager-tui
       - network-manager-applet
