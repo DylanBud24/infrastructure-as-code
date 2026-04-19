@@ -2,7 +2,7 @@ configuration {
     modi: "drun,run,window,clipboard";
     font: "JetBrainsMono Nerd Font 12";
     show-icons: true;
-    icon-theme: "Papirus-Dark";
+    icon-theme: "Adwaita";      /* shipped with gnome base; Papirus optional */
     drun-display-format: "{name}";
     disable-history: false;
     display-drun: "  Apps";

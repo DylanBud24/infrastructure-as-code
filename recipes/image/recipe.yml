@@ -49,8 +49,9 @@ modules:
       - blueman
       - pavucontrol
       # --- GUI config tools for Hyprland ---
-      - wdisplays        # monitor resolution / refresh rate GUI (via solopasha COPR)
-      - gnome-control-center  # still useful for power/bluetooth/user settings
+      - wdisplays              # monitor resolution / refresh rate GUI (via solopasha COPR)
+      - gnome-control-center   # still useful for power/bluetooth/user settings
+      - papirus-icon-theme     # nicer app icons for rofi / file managers
       # --- Hardware controls ---
       - brightnessctl
       - playerctl
