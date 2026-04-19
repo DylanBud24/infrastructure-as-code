@@ -53,18 +53,16 @@ modules:
       # Networking
       - tailscale
     remove:
-      # Silverblue-main defaults that conflict with Hyprland-first use.
+      # Silverblue-main defaults we don't want.
       - firefox
       - firefox-langpacks
       - gnome-tour
-      # Remove GDM so SDDM can claim /etc/systemd/system/display-manager.service.
-      - gdm
 
   # --- Enable system services at build time ---
+  # GDM is already enabled by silverblue-main; only add tailscale here.
   - type: systemd
     system:
       enabled:
-        - sddm.service
         - tailscaled.service
 
   # --- Flatpaks preinstalled at first boot ---
