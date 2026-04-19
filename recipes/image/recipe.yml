@@ -23,6 +23,7 @@ modules:
     install:
       # --- Hyprland compositor + session ---
       - hyprland
+      - hyprland-qtutils     # required by 0.50+ for config-error dialogs etc.
       - hyprpaper
       - hypridle
       - hyprlock
