@@ -1,5 +1,5 @@
 configuration {
-    modi: "drun,run,window,clipboard";
+    modi: "drun,run,window";
     font: "JetBrainsMono Nerd Font 12";
     show-icons: true;
     icon-theme: "Adwaita";      /* shipped with gnome base; Papirus optional */
@@ -8,7 +8,6 @@ configuration {
     display-drun: "  Apps";
     display-run:  "  Run";
     display-window: "  Windows";
-    display-clipboard: "  Clipboard";
     terminal: "kitty";
     sidebar-mode: true;
 }
