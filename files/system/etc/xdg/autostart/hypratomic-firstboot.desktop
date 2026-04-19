@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Hypratomic first-boot setup
-Comment=Syncs /etc/skel dotfiles and enables user services on first login
-Exec=/usr/libexec/hypratomic/firstboot.sh
-NoDisplay=true
-Terminal=false
-X-GNOME-Autostart-enabled=true
-OnlyShowIn=Hyprland;GNOME;

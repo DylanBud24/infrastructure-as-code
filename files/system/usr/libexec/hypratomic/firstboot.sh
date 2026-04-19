@@ -45,8 +45,15 @@ systemctl --user daemon-reload 2>/dev/null || true
 systemctl --user enable rclone-proton-drive.service 2>/dev/null || true
 
 # --- Reload Hyprland if it's running, so new config takes effect immediately ---
-if [[ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]] && command -v hyprctl >/dev/null; then
-    hyprctl reload >/dev/null 2>&1 || true
+# When launched via systemd --user the HIS env var isn't set, so probe the
+# runtime socket directory instead.
+if command -v hyprctl >/dev/null; then
+    his="${HYPRLAND_INSTANCE_SIGNATURE:-}"
+    if [[ -z "$his" ]]; then
+        runtime_dir="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/hypr"
+        [[ -d "$runtime_dir" ]] && his=$(ls -t "$runtime_dir" 2>/dev/null | head -1)
+    fi
+    [[ -n "$his" ]] && HYPRLAND_INSTANCE_SIGNATURE="$his" hyprctl reload >/dev/null 2>&1 || true
 fi
 
 # --- Drop marker so this never runs again ---

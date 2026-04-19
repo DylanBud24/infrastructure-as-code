@@ -1,0 +1,14 @@
+[Unit]
+Description=Hypratomic first-boot user setup
+Documentation=https://github.com/DylanBud24/infrastructure-as-code
+# One-shot per user. The marker is created at the end of the script.
+ConditionPathExists=!%h/.local/state/hypratomic-bootstrap.done
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/hypratomic/firstboot.sh
+# Don't fail the session if the script errors — just log and move on.
+SuccessExitStatus=0 1
+
+[Install]
+WantedBy=default.target

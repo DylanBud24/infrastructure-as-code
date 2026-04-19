@@ -171,5 +171,17 @@ modules:
       - source: system
         destination: /
 
+  # --- Enable hypratomic-firstboot.service for every user at build time ---
+  # Hyprland doesn't process /etc/xdg/autostart/*.desktop, so we can't rely on
+  # XDG autostart. A user-scoped systemd unit in default.target.wants runs
+  # for every user that logs in.
+  - type: script
+    snippets:
+      - |
+        set -euo pipefail
+        mkdir -p /usr/lib/systemd/user/default.target.wants
+        ln -sf ../hypratomic-firstboot.service \
+          /usr/lib/systemd/user/default.target.wants/hypratomic-firstboot.service
+
   # --- Signing (generated once via `cosign generate-key-pair`, public key committed) ---
   - type: signing
