@@ -66,6 +66,7 @@ modules:
       - fira-code-fonts
       # --- CLI / shell tooling ---
       - zsh
+      - util-linux-user       # provides /usr/bin/chsh
       # starship installed via script module below (not consistently packaged for Fedora Atomic)
       - git
       - gh
