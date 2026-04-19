@@ -22,9 +22,10 @@
 set -euo pipefail
 
 GH_USER="DylanBud24"
+GH_USER_LOWER="dylanbud24"   # GHCR/OCI refs must be lowercase
 REPO="infrastructure-as-code"
 IMAGE="hypratomic"
-IMAGE_REF="ostree-image-signed:docker://ghcr.io/${GH_USER}/${IMAGE}:latest"
+IMAGE_REF="ostree-image-signed:docker://ghcr.io/${GH_USER_LOWER}/${IMAGE}:latest"
 REPO_URL="https://github.com/${GH_USER}/${REPO}.git"
 DOTFILES_DIR="${HOME}/infrastructure-as-code"
 MARKER="${HOME}/.local/state/hypratomic-bootstrap.done"
@@ -42,7 +43,7 @@ detect_image() {
 }
 
 on_hypratomic() {
-    detect_image | grep -q "${GH_USER}/${IMAGE}"
+    detect_image | grep -qi "${GH_USER_LOWER}/${IMAGE}"
 }
 
 phase_a_rebase() {
