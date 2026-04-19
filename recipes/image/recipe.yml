@@ -57,6 +57,8 @@ modules:
       - firefox
       - firefox-langpacks
       - gnome-tour
+      # Remove GDM so SDDM can claim /etc/systemd/system/display-manager.service.
+      - gdm
 
   # --- Enable system services at build time ---
   - type: systemd
@@ -66,7 +68,8 @@ modules:
         - tailscaled.service
 
   # --- Flatpaks preinstalled at first boot ---
-  - type: default-flatpaks
+  # Pinned to @v1 — v2 has breaking config changes (nested repos list etc.)
+  - type: default-flatpaks@v1
     notify: true
     system:
       repo-url: https://flathub.org/repo/flathub.flatpakrepo
