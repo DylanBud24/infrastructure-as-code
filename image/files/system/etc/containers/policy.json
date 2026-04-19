@@ -1,0 +1,17 @@
+{
+  "default": [{ "type": "insecureAcceptAnything" }],
+  "transports": {
+    "docker": {
+      "ghcr.io/DylanBud24/hypratomic": [
+        {
+          "type": "sigstoreSigned",
+          "keyPath": "/etc/pki/containers/hypratomic.pub",
+          "signedIdentity": { "type": "matchRepository" }
+        }
+      ]
+    },
+    "docker-daemon": {
+      "": [{ "type": "insecureAcceptAnything" }]
+    }
+  }
+}

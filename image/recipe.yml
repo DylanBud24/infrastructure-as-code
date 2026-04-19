@@ -1,0 +1,99 @@
+# BlueBuild recipe — Hyprland on Silverblue-main.
+# Docs: https://blue-build.org/
+#
+# Build via GitHub Actions (.github/workflows/build.yml). Target laptop rebases with:
+#   rpm-ostree rebase ostree-image-signed:docker://ghcr.io/DylanBud24/hypratomic:latest
+
+name: hypratomic
+description: Silverblue-main + Hyprland + dev tooling for Dylan
+
+# Bare Silverblue base (no Bazzite, no uBlue-custom). We add only what's declared here.
+base-image: ghcr.io/ublue-os/silverblue-main
+image-version: 43  # Fedora 43 — current stable. Bump to 44 once F44 is released (~May 2026).
+
+modules:
+
+  # --- System packages (rpm-ostree layered onto the base image) ---
+  - type: rpm-ostree
+    repos:
+      # Hyprland on Fedora — canonical COPR.
+      - https://copr.fedorainfracloud.org/coprs/solopasha/hyprland/repo/fedora-%OS_VERSION%/solopasha-hyprland-fedora-%OS_VERSION%.repo
+      # Tailscale's official RPM repo.
+      - https://pkgs.tailscale.com/stable/fedora/tailscale.repo
+    install:
+      # Hyprland stack
+      - hyprland
+      - hyprpaper
+      - hypridle
+      - hyprlock
+      - xdg-desktop-portal-hyprland
+      - xdg-desktop-portal-gtk
+      - polkit-kde
+      - qt6-qtwayland
+      - qt5-qtwayland
+      # Greeter (SDDM with Wayland support)
+      - sddm
+      - sddm-wayland-common
+      # Core desktop bits that Hyprland expects
+      - NetworkManager-tui
+      - network-manager-applet
+      - pavucontrol
+      - brightnessctl
+      - playerctl
+      - wireplumber
+      - pipewire-pulseaudio
+      # Dev / terminal
+      - git
+      - gh
+      - distrobox
+      - podman-compose
+      - zsh
+      - code           # VS Code (native). Microsoft repo is pre-enabled on silverblue-main.
+      # Networking
+      - tailscale
+    remove:
+      # Silverblue-main defaults that conflict with Hyprland-first use.
+      - firefox
+      - firefox-langpacks
+      - gnome-tour
+
+  # --- Enable system services at build time ---
+  - type: systemd
+    system:
+      enabled:
+        - sddm.service
+        - tailscaled.service
+
+  # --- Flatpaks preinstalled at first boot ---
+  - type: default-flatpaks
+    notify: true
+    system:
+      repo-url: https://flathub.org/repo/flathub.flatpakrepo
+      repo-name: flathub
+      install:
+        - com.brave.Browser
+        - com.protonvpn.www
+        - me.proton.Pass           # Proton Pass desktop
+        - com.stremio.Stremio
+        - com.github.tchx84.Flatseal
+        - io.github.flattool.Warehouse
+        - org.gnome.Loupe          # image viewer
+        - org.mozilla.Thunderbird
+      remove: []
+
+  # --- Post-install: enable Flathub for user scope too, small QoL tweaks ---
+  - type: script
+    snippets:
+      - "flatpak remote-add --if-not-exists --user flathub https://flathub.org/repo/flathub.flatpakrepo || true"
+
+  # --- Files baked into the image (default skel, system configs) ---
+  - type: files
+    files:
+      - source: files/system
+        destination: /
+      # Optional: default /etc/skel additions for new users.
+      # - source: files/etc/skel
+      #   destination: /etc/skel
+
+  # --- Signing (generated once via `cosign generate-key-pair`, public key committed) ---
+  - type: signing

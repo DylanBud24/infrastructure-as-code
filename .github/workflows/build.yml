@@ -1,0 +1,55 @@
+name: build-hypratomic
+
+on:
+  # Weekly rebuild pulls in upstream Silverblue + COPR updates.
+  schedule:
+    - cron: "0 7 * * 1"
+  push:
+    branches: [main]
+    paths:
+      - "image/**"
+      - ".github/workflows/build.yml"
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: hypratomic
+  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+  DEFAULT_TAG: latest
+
+jobs:
+  build:
+    name: Build and push ${{ matrix.image-version }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        image-version: [43]  # bump to 44 when Fedora 44 Silverblue is released.
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@v10
+        with:
+          remove-dotnet: "true"
+          remove-android: "true"
+          remove-haskell: "true"
+          remove-codeql: "true"
+          root-reserve-mb: 8192
+
+      # BlueBuild's official composite action handles build + sign + push.
+      - name: Build & Push via BlueBuild
+        uses: blue-build/github-action@v1
+        with:
+          recipe: image/recipe.yml
+          cosign_private_key: ${{ secrets.SIGNING_SECRET }}
+          registry_token: ${{ github.token }}
+          pr_event_number: ${{ github.event.number }}

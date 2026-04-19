@@ -1,0 +1,5 @@
+# Tell rpm-ostree / podman to verify signatures for our image registry namespace.
+# BlueBuild's workflow publishes a cosign signature alongside each image push.
+docker:
+  ghcr.io/DylanBud24:
+    use-sigstore-attachments: true
