@@ -28,12 +28,11 @@ modules:
       - hyprlock
       - xdg-desktop-portal-hyprland
       - xdg-desktop-portal-gtk
-      - polkit-kde
+      - polkit-gnome
       - qt6-qtwayland
       - qt5-qtwayland
-      # Greeter (SDDM with Wayland support)
+      # Greeter (SDDM — Wayland support is in the main package on F43+)
       - sddm
-      - sddm-wayland-common
       # Core desktop bits that Hyprland expects
       - NetworkManager-tui
       - network-manager-applet
@@ -48,7 +47,9 @@ modules:
       - distrobox
       - podman-compose
       - zsh
-      - code           # VS Code (native). Microsoft repo is pre-enabled on silverblue-main.
+      # VS Code intentionally omitted here — installed as a Flatpak below.
+      # Microsoft's vscode repo isn't pre-enabled on silverblue-main, and
+      # Settings Sync gives the same cross-machine UX as native install.
       # Networking
       - tailscale
     remove:
@@ -74,6 +75,7 @@ modules:
         - com.brave.Browser
         - com.protonvpn.www
         - me.proton.Pass           # Proton Pass desktop
+        - com.visualstudio.code    # VS Code (Flathub community build)
         - com.stremio.Stremio
         - com.github.tchx84.Flatseal
         - io.github.flattool.Warehouse
