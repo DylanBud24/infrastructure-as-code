@@ -143,7 +143,7 @@ print_manual_steps() {
        gpg --import /tmp/gpg.asc && shred -u /tmp/gpg.asc
 
   7. Display config (fix refresh rate, scaling) if needed:
-       nwg-displays                     # GUI; writes ~/.config/hypr/monitors.conf
+       wdisplays                        # GUI for resolution/refresh/arrangement
        # or by hand: hyprctl monitors   → edit ~/.config/hypr/hyprland.conf
 
   Refresh the Hyprland config at any time with: Super+Shift+C  (or log out / in).

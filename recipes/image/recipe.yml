@@ -49,8 +49,7 @@ modules:
       - blueman
       - pavucontrol
       # --- GUI config tools for Hyprland ---
-      - nwg-displays     # monitor resolution / refresh rate / scaling GUI
-      - nwg-look         # GTK theme picker
+      - wdisplays        # monitor resolution / refresh rate GUI (via solopasha COPR)
       - gnome-control-center  # still useful for power/bluetooth/user settings
       # --- Hardware controls ---
       - brightnessctl
@@ -67,7 +66,7 @@ modules:
       - fira-code-fonts
       # --- CLI / shell tooling ---
       - zsh
-      - starship
+      # starship installed via script module below (not consistently packaged for Fedora Atomic)
       - git
       - gh
       - ripgrep
@@ -125,6 +124,14 @@ modules:
   - type: script
     snippets:
       - "flatpak remote-add --if-not-exists --user flathub https://flathub.org/repo/flathub.flatpakrepo || true"
+
+  # --- Starship prompt (official install script writes a single static binary) ---
+  - type: script
+    snippets:
+      - |
+        set -euo pipefail
+        curl -fsSL https://starship.rs/install.sh \
+          | sh -s -- --yes --bin-dir /usr/local/bin
 
   # --- JetBrainsMono Nerd Font (Fedora doesn't ship patched nerd fonts) ---
   # Required so waybar/kitty/starship glyphs render properly.
